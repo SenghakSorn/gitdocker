@@ -1,0 +1,23 @@
+name: Biuld and push Docker image to Docker Hub
+
+on:push
+jobs:
+ push_to_registry:
+  name:Push Docker Image to Docker Hub
+  run-on ubunti-lastest
+  steps:
+  -name: Check out the repo
+  uses: actions.checkout@v3
+
+  - name: login to Docker Hub
+  uses: docker/login-action@v2
+  with:
+  username: ${{secrets.DOCKERHUB_USERNAME}}
+  password: ${{secrets.DOCKERHUB_TOKEN}}
+
+  -name: Build and push Docker image 
+  uses: docker/build-push-action@v4
+  with: 
+  context: aupp/
+  push: true
+  tags: senghaksorn/gitdockerci.latest
